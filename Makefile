@@ -8,6 +8,7 @@ dropdb:
 	docker exec -it auth dropdb auth_db --username admin
 test:
 	go test -v -cover ./...
-
+server:
+	go run main.go
 .phony:
-	test postgres createdb dropdb
+	test postgres createdb dropdb server
