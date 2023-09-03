@@ -43,7 +43,7 @@ func (server *Server) setupRouter() {
 		AllowCredentials: true,
 	}))
 
-	auth := router.Group("/api/auth")
+	auth := router.Group("/auth")
 	{
 		auth.POST("", server.createUser)
 		auth.POST("/login", server.loginUser)

@@ -14,5 +14,7 @@ chat:
 	go run main.go -server chat
 auth:
 	go run main.go -server auth
-.phony:
-	test postgres createdb dropdb server chat auth
+frontend:
+	cd frontend && yarn start
+	
+.PHONY: test postgres createdb dropdb server chat auth frontend
