@@ -2,7 +2,7 @@ package api
 
 import (
 	db "chat-app/auth-service/db/sqlc"
-	"chat-app/auth-service/util"
+	"chat-app/util"
 	"database/sql"
 	"fmt"
 	"net/http"

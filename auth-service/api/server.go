@@ -3,9 +3,10 @@ package api
 import (
 	db "chat-app/auth-service/db/sqlc"
 	"chat-app/auth-service/token"
-	"chat-app/auth-service/util"
+	"chat-app/util"
 	"fmt"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,7 +36,14 @@ func NewServer(config util.Config, auth db.Auth) (*Server, error) {
 func (server *Server) setupRouter() {
 	router := gin.Default()
 
-	auth := router.Group("/auth")
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		AllowCredentials: true,
+	}))
+
+	auth := router.Group("/api/auth")
 	{
 		auth.POST("", server.createUser)
 		auth.POST("/login", server.loginUser)

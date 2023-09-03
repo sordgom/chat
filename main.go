@@ -3,8 +3,11 @@ package main
 import (
 	"chat-app/auth-service/api"
 	db "chat-app/auth-service/db/sqlc"
-	"chat-app/auth-service/util"
+	chat "chat-app/chat-service"
+	"chat-app/util"
 	"database/sql"
+	"flag"
+	"fmt"
 	"os"
 
 	"github.com/golang-migrate/migrate/v4"
@@ -16,6 +19,10 @@ import (
 )
 
 func main() {
+	server := flag.String("server", "", "http,websocket")
+	flag.Parse()
+	fmt.Println("Distributed Chat App v0.01")
+
 	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
@@ -30,12 +37,15 @@ func main() {
 		log.Fatal().Err(err).Msg("cannot connect to db")
 	}
 
-	//run db migration
-	runDBMigration(config.MigrationURL, config.DBSource)
-
 	auth := db.NewAuth(conn)
 
-	runGinServer(config, auth)
+	if *server == "auth" {
+		runGinServer(config, auth)
+	} else if *server == "chat" {
+		runChatServer(config)
+	} else {
+		log.Fatal().Msg("invalid server type")
+	}
 }
 
 func runDBMigration(migrationURL string, dbSource string) {
@@ -52,6 +62,9 @@ func runDBMigration(migrationURL string, dbSource string) {
 }
 
 func runGinServer(config util.Config, auth db.Auth) {
+
+	runDBMigration(config.MigrationURL, config.DBSource)
+
 	server, err := api.NewServer(config, auth)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create server")
@@ -60,4 +73,10 @@ func runGinServer(config util.Config, auth db.Auth) {
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot start server")
 	}
+}
+
+func runChatServer(config util.Config) {
+	log.Info().Msg("Starting chat server on :8082")
+	chat.ConnectRedis(&config)
+	chat.StartWebsocketServer()
 }
