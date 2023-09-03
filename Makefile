@@ -10,5 +10,9 @@ test:
 	go test -v -cover ./...
 server:
 	go run main.go
+chat:
+	go run main.go -server chat
+auth:
+	go run main.go -server auth
 .phony:
-	test postgres createdb dropdb server
+	test postgres createdb dropdb server chat auth
