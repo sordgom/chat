@@ -6,7 +6,7 @@ import (
 	"time"
 
 	db "chat-app/auth-service/db/sqlc"
-	"chat-app/auth-service/util"
+	"chat-app/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"

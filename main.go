@@ -3,7 +3,7 @@ package main
 import (
 	"chat-app/auth-service/api"
 	db "chat-app/auth-service/db/sqlc"
-	"chat-app/auth-service/util"
+	"chat-app/util"
 	"database/sql"
 	"os"
 

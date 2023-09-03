@@ -3,7 +3,7 @@ package api
 import (
 	db "chat-app/auth-service/db/sqlc"
 	"chat-app/auth-service/token"
-	"chat-app/auth-service/util"
+	"chat-app/util"
 	"fmt"
 
 	"github.com/gin-gonic/gin"

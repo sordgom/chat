@@ -1,7 +1,7 @@
 package sqlc
 
 import (
-	"chat-app/auth-service/util"
+	"chat-app/util"
 	"context"
 	"testing"
 

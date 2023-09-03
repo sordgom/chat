@@ -1,4 +1,4 @@
-package val
+package util
 
 import (
 	"fmt"

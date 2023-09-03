@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"chat-app/auth-service/util"
+	"chat-app/util"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/stretchr/testify/require"
