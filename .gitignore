@@ -19,3 +19,6 @@ logs.txt
 .idea/
 secret.md
 tmp
+.pre-commit-config.yaml
+commitlint.config.js
+```

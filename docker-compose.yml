@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=auth_db
+    ports:
+      - "6510:5432"
+
+  auth_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8100:8100"
+    environment:
+      - DB_SOURCE=postgresql://admin:password123@localhost:6510/auth_db?sslmode=disable
+    depends_on:
+      - postgres
+    entrypoint:
+      [
+        "/app/wait-for.sh",
+        "postgres:5432",
+        "--",
+        "/app/start.sh"
+      ]
+    command: [ "/app/main" ]
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisDB:/data
+
+volumes:
+  redisDB:
