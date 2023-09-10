@@ -23,7 +23,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports: 
+        ports:
           - 6510:5432
 
     steps:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Install migrate binary
         run: |
-          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.16.2/migrate.linux-amd64.tar.gz | tar xvz 
+          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.16.2/migrate.linux-amd64.tar.gz | tar xvz
           sudo mv migrate /usr/bin/migrate
           which migrate
 
@@ -45,3 +45,6 @@ jobs:
 
       - name: Test
         run: make -C auth-service test
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v3.7.0
